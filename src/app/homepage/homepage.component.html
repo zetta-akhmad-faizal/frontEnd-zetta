@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="wrapper">
+    <h1>{{ "home.title" | translate }}</h1>
+    <p class="description first-font">
+      {{ "home.subtitle" | translate }}
+    </p>
+    <div class="btn-wrapper">
+      <button class="btn" mat-raised-button (click)="onMenu()">
+        {{ "home.btn-menu" | translate }}
+      </button>
+      <button class="btn btn-reset" mat-raised-button (click)="onOrder()">
+        {{ "home.btn-order" | translate }}
+      </button>
+    </div>
+  </div>
+</div>

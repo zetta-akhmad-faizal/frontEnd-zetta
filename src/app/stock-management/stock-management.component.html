@@ -1,0 +1,99 @@
+<div class="container">
+  <div class="wrapper">
+    <div class="table-wrapper">
+      <div class="btn-container">
+        <button mat-raised-button color="primary" (click)="onAdd()">
+          Add New Ingredient
+        </button>
+      </div>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>
+            Name
+            <input
+              matInput
+              type="text"
+              [formControl]="filtername"
+              [(ngModel)]="defaultFilter"
+              placeholder="Input name ..."
+            />
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        </ng-container>
+        <!-- Stock Column -->
+        <ng-container matColumnDef="stock">
+          <th mat-header-cell *matHeaderCellDef>Stock</th>
+          <td mat-cell *matCellDef="let element">{{ element.stock }}</td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="available">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-form-field>
+              <mat-label>Availability</mat-label>
+              <mat-select
+                (valueChange)="onFilterAvailability($event)"
+                name="food"
+              >
+                <mat-option
+                  *ngFor="let food of availabilities"
+                  [value]="food.value"
+                >
+                  {{ food.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon
+              matTooltip="Available"
+              [ngStyle]="{ color: 'green' }"
+              *ngIf="element.available === true"
+            >
+              done
+            </mat-icon>
+            <mat-icon
+              matTooltip="Unavailable"
+              [ngStyle]="{ color: 'red' }"
+              *ngIf="element.available === false"
+            >
+              close
+            </mat-icon>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              matTooltip="Edit the ingredient"
+              mat-raised-button
+              (click)="onUpdate(element)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              matTooltip="Delet the ingredient"
+              mat-raised-button
+              (click)="onDelete(element)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+      <mat-paginator
+        [length]="ingredientsLength"
+        [pageSize]="pageSize"
+        [pageIndex]="pageIndex"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Select page"
+        (page)="pageEvent = indexingPage($event)"
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</div>
